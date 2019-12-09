@@ -15,12 +15,6 @@ const MAX_LAT = Math.PI / 2;
 const MIN_LON = -Math.PI;
 const MAX_LON = Math.PI;
 
-export interface AirportResult {
-	totalRows: number;
-	bookmark: string;
-	rows: Airport[];
-}
-
 @Injectable()
 export class AirportService {
 
@@ -32,31 +26,6 @@ export class AirportService {
 	) {
 		this.db = this.cloudant.use(this.config.cloudantDb);
 	}
-
-	// public async getAirports(radius: number, lat: number, lon: number, limit: number): Promise<AirportResult> {
-	// 	return new Promise((resolve, reject) => {
-	// 		// Get bounding box
-	// 		const [[minLat, minLon], [maxLat, maxLon]] = this.getBoundingBox(lat, lon, radius);
-
-	// 		// Prepare filter
-	// 		const query = `lon:[${minLon} TO ${maxLon}] AND lat:[${minLat} TO ${maxLat}]`;
-
-
-	// 		// // Run search
-	// 		// this.db.search('view1', 'geo', { q: query, limit }, (err, result) => {
-	// 		// 	if (err) { reject(err); }
-
-	// 		// 	const { total_rows, bookmark, rows } = result;
-	// 		// 	console.log('Showing %d out of a total %d airports', rows.length, total_rows);
-
-	// 		// 	// Filter result to airports within the circle
-	// 		// 	const transformedRows = rows
-	// 		// 		.filter((row) => this.getDistance(lat, lon, (row.fields as any).lat, (row.fields as any).lon) <= radius)
-	// 		// 		.map((row) => ({ id: row.id, ...row.fields } as Airport));
-	// 		// 	resolve({ totalRows: total_rows, bookmark, rows: transformedRows });
-	// 		// });
-	// 	});
-	// }
 
 	public async getAirports(radius: number, lat: number, lon: number, limit: number): Promise<Airport[]> {
 		// Get bounding box
