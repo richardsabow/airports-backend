@@ -62,7 +62,7 @@ export class AirportService {
 		} while (rows.length > 0);
 
 		// Order airports by distance
-		airports = orderBy(airports, (a: Airport) => this.getDistance(lat, lon, a.lat, a.lon));
+		airports = orderBy(airports, (a: Airport) => a.dist);
 
 		// Take the first `limit` airport
 		airports = take(airports, limit);
