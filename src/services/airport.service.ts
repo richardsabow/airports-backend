@@ -76,8 +76,17 @@ export class AirportService {
 
 			// Filter result to airports within the circle
 			const transformedRows = rows
-				.filter((row) => this.getDistance(lat, lon, (row.fields as any).lat, (row.fields as any).lon) <= radius)
-				.map((row) => ({ id: row.id, ...row.fields } as Airport));
+				.map((row) => ({
+					id: row.id,
+					...row.fields,
+					dist: this.getDistance(
+						lat,
+						lon,
+						(row.fields as any).lat,
+						(row.fields as any).lon,
+					),
+				} as Airport))
+				.filter((a: Airport) => a.dist <= radius);
 
 			// Add to collected airports
 			airports = airports.concat(transformedRows);
